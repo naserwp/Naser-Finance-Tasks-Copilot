@@ -44,3 +44,11 @@ next-env.d.ts
 /.codex/
 /outputs/
 /work/
+
+# Private finance data and generated assets
+/.private/
+/public/reader/
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+tsconfig.tsbuildinfo

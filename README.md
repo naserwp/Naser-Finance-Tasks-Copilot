@@ -1,27 +1,23 @@
 # Naser Finance & Tasks Copilot
 
-Personal income, expenses, accounts, budgets and tasks. Mobile responsive, BDT currency, Personal/Business modes and CSV exports.
+A personal/business finance workspace with accounts, cards, budgets, tasks, DPS/FDR, receipt photos, PDF/image uploads, statement references and manual review.
+
+The `local-codex-workspace` branch contains this local handoff; `main` remains the hosted copy.
+
+## Local development
+
+Use Node 22.13+ (Node 24 recommended). Run `npm install`, then `npm run dev` and open http://127.0.0.1:3000. Local data is stored in SQLite and files under `.private/`; no hosting token is needed. See `docs/LOCAL_SETUP.md` and `Setup-Local.ps1` for Windows setup.
+
+## Continue in Codex
+
+Open the project folder in Codex Desktop. Start with `AGENTS.md` and `docs/memory/PROJECT_MEMORY.md`. Keep decisions and remaining work current after changes.
 
 ## Hosting
 
-This repository is the Next.js / Vercel-compatible export of the original ChatGPT Site. It uses the SAME private Sites data backend, so no financial records are copied into GitHub. The original Site is retained at https://naser-finance-copilot.naserdev0.chatgpt.site.
+The original private application is https://naser-finance-copilot.naserdev0.chatgpt.site. On Vercel, this repository uses its private backend through a server-only proxy. Verify Vercel Authentication protects ALL deployments, then configure `SITES_BACKEND_TOKEN` and `FINANCE_PRIVATE_DEPLOYMENT=true`. Without them, hosted data routes fail closed. Local and hosted copies are NOT automatically synchronized.
 
-## Run locally
+## Privacy and calculations
 
-Use Node 22 or newer. Run `npm install`, then `npm run dev`.
+Do not commit `.private/`, statements, account/card numbers, passwords, tokens, environment files or databases. Snapshot data is included only in a private handoff package, never in this public repository. Statement balances and installment reminders are not new expenses or proof of payment. Unknown balances stay unknown; transfers/card repayments are excluded from income/expense totals. Review extracted values before posting.
 
-## Private deployment setup
-
-1. Import this repository into Vercel using the Next.js preset.
-2. Enable Vercel Authentication for **all deployments**, including production, before enabling data access.
-3. Set `SITES_BACKEND_TOKEN` as a server-only encrypted environment variable. Obtain supported service access for the original owner-private Site; never put the token in Git or client code.
-4. Set `FINANCE_PRIVATE_DEPLOYMENT=true` only after verifying all-deployment protection.
-5. Redeploy. Verify authenticated access and that unauthenticated API access is denied.
-
-Without both server variables, all data routes fail closed with 503. The UI remains available but cannot read or modify records. The original Cloudflare API implementation is preserved in `docs/original-sites-api.txt` for a future standalone database migration. No AI or WhatsApp connection is included.
-
-## Documents and savings
-
-Documents supports camera capture, multiple PDF/image uploads, local PDF password entry and on-device English OCR. Review extracted text before creating a transaction. Exact duplicate uploads are detected by content hash. Savings tracks DPS/FDR terms separately from confirmed paid contributions. Transfers and card repayments are excluded from income/expense totals.
-
-No personal email discoveries, financial records, passwords, encryption keys or PDF bytes are committed to this public repository. The private Sites backend stores these. Vercel needs its server-only connection before uploads and records work.
+Checks: `npm run typecheck` and `npm run build`. PDF/OCR reading uses local generated assets after install. Camera support and extraction accuracy should be verified on the owner's device.

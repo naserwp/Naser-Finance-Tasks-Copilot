@@ -1,8 +1,10 @@
 import 'server-only';
+import {localRecords} from '@/lib/local-store';
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 // Enable only after Vercel Authentication protects ALL deployments, including production.
 async function proxy(request: Request) {
+  if(!process.env.VERCEL)return localRecords(request);
   const token=process.env.SITES_BACKEND_TOKEN;
   if(process.env.FINANCE_PRIVATE_DEPLOYMENT!=='true'||!token) {
     return Response.json({error:'Private data connection is not configured. Your original records remain safe in ChatGPT Sites.'},{status:503});

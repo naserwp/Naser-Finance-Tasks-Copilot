@@ -1,7 +1,9 @@
 import 'server-only';
+import {localDocuments} from '@/lib/local-store';
 export const dynamic='force-dynamic';
 export const runtime='nodejs';
 async function proxy(request:Request){
+ if(!process.env.VERCEL)return localDocuments(request);
  const token=process.env.SITES_BACKEND_TOKEN;if(process.env.FINANCE_PRIVATE_DEPLOYMENT!=='true'||!token)return Response.json({error:'The private data connection is not configured. Use your original ChatGPT Site to upload documents.'},{status:503});
  const origin=request.headers.get('origin');if(request.method!=='GET'&&origin&&origin!==new URL(request.url).origin)return new Response('Origin not allowed',{status:403});
  const id=new URL(request.url).searchParams.get('id');const url='https://naser-finance-copilot.naserdev0.chatgpt.site/api/documents'+(id?'?id='+encodeURIComponent(id):'');
